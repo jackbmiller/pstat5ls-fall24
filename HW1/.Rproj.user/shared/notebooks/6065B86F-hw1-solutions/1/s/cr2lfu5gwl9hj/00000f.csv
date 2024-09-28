@@ -1,0 +1,4 @@
+"0","hist(penguins$body_mass_g, "
+"0","     main = ""Histogram of Body Mass of Palmer Penguins"", "
+"0","     xlab = ""Body Mass (grams)"", "
+"0","     ylab = ""Number of Penguins"")"
