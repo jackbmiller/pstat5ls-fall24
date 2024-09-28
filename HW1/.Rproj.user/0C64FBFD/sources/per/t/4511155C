@@ -1,7 +1,7 @@
 {
     "id": "4511155C",
     "path": "~/Documents/_Courses/PSTAT 5LS/_F24 5LS/Homework/HW1-pstat5ls-f24/hw1-solutions.Rmd",
-    "project_path": "hw1-solutions.Rmd",
+    "project_path": null,
     "type": "r_markdown",
     "hash": "1478777222",
     "contents": "",
@@ -14,7 +14,7 @@
         "Source": "Source",
         "cursorPosition": "102,22",
         "scrollLine": "99",
-        "last_setup_crc32": "d1750a30bb338d19",
+        "last_setup_crc32": "",
         "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
         "docOutlineVisible": "0",
