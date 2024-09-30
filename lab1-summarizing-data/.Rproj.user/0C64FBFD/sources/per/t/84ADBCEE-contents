@@ -1,0 +1,327 @@
+---
+title: "PSTAT 5LS Lab 1" 
+author: "TA Name Here"
+date: "Week of September 30, 2024"
+output:
+  beamer_presentation:
+    theme: AnnArbor
+---
+
+## Announcements
+
+Insert any relevant announcements, important dates, things you want to remember here.
+
+Upcoming due dates:
+
+- Homework 1 due by 11:59pm on Friday, October 4
+- ECJE 1 due by 11:59pm on Monday, October 7
+
+# Learning Objectives
+
+## R Learning Objectives
+1. Learn how to import data into R
+1. Learn how to find the five-number summary of a variable, and find a specific numeric summary (statistic) in R
+1. Learn how to make a histogram in R
+1. Learn how to make a box plot in R
+1. Learn how to make side-by-side box plots in R
+
+## Statistical Learning Objectives
+1. Understand when to histogram
+1. Understand when to make a box plot
+1. Understand when to make a side-by-side box plot and how to use this type of comparison
+1. Be able to use these graphical and numerical summaries to discuss data
+  
+## Functions covered in this lab
+1.  `read.csv()`
+1. `head()`
+1. `str()`
+1. `summary()`
+1. `hist()`
+1. `min()`, `mean()`, `median()`, `max()`, `sd()`, `IQR()`
+1. `boxplot()`
+
+# Lab Tutorial
+
+## CSV files: a common way to store data
+
+One common way to store data is to store it in a CSV file. CSV stands for "comma separated values".
+
+Open the file "penguins.csv" from the files pane (lower right) to see what a .csv file looks like:
+
+\includegraphics[width=8cm]{assets/images/open_file.png}
+
+Each row of the file is an "observation" or "case", and consists of one or more variables whose *values* are *separated* by *commas* (hey, look at that). The first row contains the names of the variables contained in the file.
+
+## Palmer Penguins Data
+
+We're going to start by working with a data set with data on 333 penguins collected from 3 islands in the Palmer Archipelago in Antarctica. Data were collected and made available by [Dr. Kristen Gorman](https://www.uaf.edu/cfos/people/faculty/detail/kristen-gorman.php) and the [Palmer Station, Antarctica LTER](https://pal.lternet.edu/), a member of the [Long Term Ecological Research Network](https://lternet.edu/), and the data were prepared by [Dr. Allison Horst](https://github.com/allisonhorst/palmerpenguins).
+
+\begin{center}
+\includegraphics[width=6cm]{assets/images/lter_penguins.png}
+\end{center}
+
+## Reading Data into R
+
+We can **read** data into R using a function called `read.csv()`. The first argument to `read.csv()` is the name of a .csv file (here, `penguins.csv`), in quotes. We then store the results of `read.csv()` as an object called `penguins`.
+
+```{r loadPenguins}
+
+penguins <- read.csv("penguins.csv", stringsAsFactors = TRUE)
+
+```
+
+The argument `stringsAsFactors = TRUE` has been added to the `read.csv()` function. This is important because we want to be able to distinguish between something called a *string*, which is a phrase or word, and a **factor**, which represents the levels of a categorical variable. Basically, by setting `stringsAsFactors = TRUE`, we are letting R know to expect that any words or phrases in the data actually relate to categorical variables.
+
+Go ahead and run the `loadPenguins` chunk of your `lab1-notes.Rmd` markdown file, and verify that the `penguins` data is in your environment in the top right corner of your RStudio project.
+
+## Peeking at the Data
+
+Let's see what's in the data. We can peek at the first few (6, specifically) rows of the data using the `head()` function:
+
+\tiny
+
+```{r headPenguins}
+
+head(penguins)
+
+```
+
+## Peeking at the Data
+
+We read that line of code as "*head* of *penguins*". Remember that `penguins` is what we named our data set. We can see that `penguins` contains a number of *variables*, like `species`, `island`, and more.
+
+Use the `tryIt1` chunk in your notes to peek at the first 6 rows of the penguins data file. The function is `head(penguins)`.
+
+## Data
+
+| Variable name    | Description                                                                                               |
+|:-----------------------------------|:-----------------------------------|
+| `species`        | Penguin species (Adélie, Chinstrap, and Gentoo)                                                           |
+| `island`         | Island in Palmer Archipelago, Antarctica, on which the penguin was observed (Biscoe, Dream, or Torgersen) |
+| `bill_length_mm` | A number denoting bill length (in millimeters)                                                            |
+| `bill_depth_mm`  | A number denoting bill depth (in millimeters)                                                             |
+
+## Data Continued
+
+| Variable name       | Description                                             |
+|:-------------------------------------|:--------------------------------|
+| `flipper_length_mm` | A whole number denoting flipper length (in millimeters) |
+| `body_mass_g`       | A whole number denoting penguin body mass (in grams)    |
+| `sex`               | Penguin sex (female, male)                              |
+| `year`              | Study year (2007, 2008, 2009)                           |
+
+## Another Way
+
+We can also peek at the data using a function called `str()` (pronounced "stir", short for "structure"):
+
+\tiny
+```{r strPenguins}
+
+str(penguins)
+
+```
+
+\normalsize
+Use the `tryIt2` chunk in your notes examine the structure of the penguins data file.
+
+## How to Find Help in R
+R has built-in "documentation" for every function. If you want to find that documentation, you can Google it, but that takes too long. So it's better to use R's built in help! In the R console, just type a question mark `?` followed by the name of the function you want help with, then hit enter. 
+
+For example, `?hist` will bring up the documentation for the `hist()` function.
+
+Let's try this in the `tryit3` code chunk in your notes file.
+
+At the end of the help file you *may* find an example of how to use the function. These examples are generally super helpful! You can directly run them using the `example()` function -- e.g., `example(hist)`.
+
+The most useful feature of help in R is a list of a function's arguments and a quick explanation of what each argument does. You may not be able to fully understand some of the terms in the documentation just yet, but try it out and your TA will be able to help!
+
+## Numerical Summaries
+Let's start with the `flipper_length_mm` variable. Is this a categorical or quantitative variable? How do you know?
+
+We can use R to summarize data numerically. We'll use the `summary()` function to do that for a given variable. Here, we'll summarize the `flipper_length_mm` variable, which is the length of the penguins' flippers (in millimeters). Try this code out by running the `tryit4` code chunk in your `lab1-notes`.
+
+```{r flipperSummaries}
+summary(penguins$flipper_length_mm)
+
+```
+
+## Numerical Summaries
+You might have noticed that the `summary()` function doesn't give you the standard deviation of the variable. To get the standard deviation, use the `sd()` function in addition to the `summary()` function. 
+
+Summarize the `flipper_length_mm` variable again adding the code to get the standard deviation as well. Use the `tryit5` code chunk to have R give you the standard deviation in addition to the other summary statistics.
+
+```{r flipperSummaries_withSD}
+summary(penguins$flipper_length_mm)
+sd(penguins$flipper_length_mm)
+
+```
+
+## Number Summaries continued
+You can always get just the one numerical summary you're looking for using the function for that specific summary. Try these out in the `tryit6` code chunk.
+
+```{r summaryFunctions, eval = FALSE}
+min(penguins$flipper_length_mm)
+mean(penguins$flipper_length_mm)
+median(penguins$flipper_length_mm)
+max(penguins$flipper_length_mm)
+sd(penguins$flipper_length_mm)
+IQR(penguins$flipper_length_mm)
+
+```
+
+## Histograms in R
+One type of graphical display for a quantitative variable is a histogram. Histograms in R are also pretty easy -- you just use the `hist()` function.
+
+## Histogram of Flipper Length of Penguins
+```{r hist, echo = FALSE, out.width="75%"}
+hist(penguins$flipper_length_mm)
+
+```
+
+## Don't Forget Labels and Titles!
+```{r histCode, eval = FALSE}
+hist(penguins$flipper_length_mm)
+
+```
+So here we've got a histogram. Notice that we didn't provide the `main`, `xlab`, and `ylab` arguments that we'd normally use for a plot title and an axis label, but R still gave us a title and labels. This is nice, but the labels are *horrible*: nobody (other than you) knows what `penguin$flipper_length_mm` means, so we don't want to use that as a title or axis label.
+
+The moral of the story is to **always provide `main`, `xlab`, and `ylab` arguments when making a plot!**
+
+## That Same Histogram with Labels and a Title
+
+```{r histLabelsJustPlot, echo = FALSE, out.width="75%"}
+hist(penguins$flipper_length_mm,
+     main = "Histogram of Penguin Flipper Length",
+     xlab = "Flipper Length (mm)",
+     col = "lightblue")
+
+```
+
+## Histogram Code
+Try this code out in the `tryit7` code chunk. Watch out for the dreaded typos! If you get an error message, try to debug it yourself before asking for help!
+
+```{r histLabelsJustCode, eval = FALSE}
+hist(penguins$flipper_length_mm,
+     main = "Histogram of Penguin Flipper Length",
+     xlab = "Flipper Length (mm)",
+     col = "lightblue")
+```
+
+## Describing Histograms
+Recall from lecture that we describe distributions by addressing four aspects:
+
+1. Shape (number of modes + symmetry or lack thereof)
+2. Center
+3. Spread/Variability
+4. Outliers
+
+\vspace{0.5cm}
+
+A handy mnemonic to remember what to comment about is **SOCS**:
+
+\begin{center} 
+\textbf{S}hape \textbf{O}utliers \textbf{C}enter \textbf{S}pread 
+\end{center}
+
+\vspace{0.5cm}
+
+**Note:** Be sure to mention whether there are or are not outliers. Not saying anything doesn't let us know that you know to check for outliers.
+
+## Using Histograms to Describe Distributions
+Describe the distribution of flipper lengths.
+
+\vspace{3cm}
+
+## Using Histograms to Describe Distributions
+Describe the distribution of flipper lengths.
+
+\textcolor{blue}{The histogram of flipper length appears to be bimodal, suggesting that there are two subgroups in the penguins data set. One of the peaks appears to center around 190 mm, and the other centers around 215 mm. The flipper lengths range from about 170 to 235 mm. None of the flipper lengths appear to be outliers that stand far away from the rest of the data points.}
+
+## Using Histograms to Describe Distributions
+Do you think that the mean is the best measure of center for the flipper lengths? Why or why not?
+
+\vspace{3cm}
+
+## Using Histograms to Describe Distributions
+Do you think that the mean is the best measure of center for the flipper lengths? Why or why not?
+
+\textcolor{blue}{Since we saw a bimodal distribution of flipper lengths, there is not one overall measure of center that will be good to describe this distribution.}
+
+## Box Plots in R
+Another type of graphical display for a quantitative variable is a box plot. The command for making a box plot in R is pretty simple: it's just `boxplot()`. To make a box plot of a single variable, just give R the name of the data set, a dollar sign ($), then the name of the variable. Also provide the arguments `main` and `ylab` for a plot title and y-axis label.
+
+## Box Plot of the Flipper Length of Penguins
+```{r boxplotJustPlot, echo = FALSE}
+boxplot(penguins$flipper_length_mm,
+        main = "Box Plot of Penguin Flipper Length",
+        ylab = "Flipper Length (mm)",
+        col = "lightblue")
+
+```
+
+## Code for the Box Plot of the Flipper Length of Penguins
+Try this code out yourself in the `tryit8` code chunk. Watch out for the dreaded typos! If you get an error message, try to debug it yourself before asking for help!
+
+```{r boxplotJustCode, eval = FALSE}
+boxplot(penguins$flipper_length_mm,
+        main = "Box Plot of Penguin Flipper Length",
+        ylab = "Flipper Length (mm)",
+        col = "lightblue")
+
+```
+
+## Describing Distributions with Box Plots
+True or False:
+
+The box plot of flipper lengths appears to be unimodal and symmetric.
+
+## Describing Distributions with Box Plots
+True or False:
+
+The box plot of flipper lengths appears to be unimodal and symmetric.
+
+\textcolor{blue}{This statement is \textbf{false}! We cannot determing the number of modes from a box plot. In terms of symmetry, it's difficult to tell with this distribution. The median is a little lower than the center of the box, which suggests the distribution might be skewed to the right, but the "whiskers" look to be about the same size which might suggest symmetry.}
+
+\textcolor{red}{Remember that we need to watch out for describe the shape of this distribution anyway because we saw subgroups in the histogram!}
+
+## Side-by-side Box Plots
+Sometimes we're interested in comparing two or more groups using "side-by-side" box plots. We can compare the different species of penguins' bill lengths in this way, still using the `boxplot` function. We have provided the code in the `tryit9` code chunk.
+
+```{r billLengthBySpecies, eval = FALSE}
+boxplot(penguins$bill_length_mm ~ penguins$species,
+        main = "Box Plots of Penguin Bill Length by Species",
+        ylab = "Bill Length (mm)",
+        xlab = "Species",
+        col = c("darkorange1", "mediumorchid2", "darkcyan"))
+
+```
+
+## Side-by-side Box Plots Continued
+```{r billLengthBySpecies2, echo = FALSE}
+boxplot(penguins$bill_length_mm ~ penguins$species,
+        main = "Box Plots of Penguin Bill Length by Species",
+        ylab = "Bill Length (mm)",
+        xlab = "Species",
+        col = c("darkorange1", "mediumorchid2", "darkcyan"))
+
+```
+
+## Penguin Bill Length By Species
+Does it appear that a penguin's bill length is related to its species, for the penguins in Palmer Archipelago? Why or why not?
+
+\vspace{3cm}
+
+## Penguin Bill Length By Species
+Does it appear that a penguin's bill length is related to its species, for the penguins in Palmer Archipelago? Why or why not?
+
+\textcolor{blue}{Adelie penguins appear to have short bill lengths than both Chinstrap and Gentoo penguins. The maximum bill length for Adelie penguins (around 46 mm) looks to be close to the bill length at the first quartile (Q1) for the other two species of penguins. The bill lengths for Chinstrap and Gentoo penguins have similar boxplots, but the Chinstrap penguins have a slightly higher Q1, median, and Q3 for bill lengths. The maximum bill length for Gentoo penguins (around 60 mm) is higher than the maximum bill length for Chinstrap penguins.}
+
+## What Next?
+In today's lab, we used R to get graphical and numerical summaries for quantitative variables. 
+
+As we go throughout the quarter, we will continue learning how to analyze data.
+
+# Questions
+
+## What Questions Do You Have?
+

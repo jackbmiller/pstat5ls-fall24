@@ -1,0 +1,5 @@
+"0","boxplot(penguins$bill_length_mm ~ penguins$species,"
+"0","        main = ""Box Plots of Penguin Bill Length by Species"","
+"0","        ylab = ""Bill Length (mm)"","
+"0","        xlab = ""Species"","
+"0","        col = c(""darkorange1"", ""mediumorchid2"", ""darkcyan""))"
