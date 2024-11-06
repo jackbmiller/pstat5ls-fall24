@@ -1,0 +1,1 @@
+"0","penguins <- read.csv(""penguins.csv"", stringsAsFactors = TRUE)"

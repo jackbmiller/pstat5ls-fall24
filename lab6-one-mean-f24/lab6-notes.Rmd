@@ -1,0 +1,130 @@
+---
+title: "PSTAT 5LS Lab 6"
+author: "YOUR NAME HERE"
+date: "Week of November 11, 2024" 
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stats250sbi)
+```
+
+# Lab Notes
+
+Use this place to take any notes during your lab section.
+
+- Type any notes here
+- Add new notes by using the dash `-` to create a list
+
+# Lab Tutorial
+
+```{r tryIt1, error = T}
+# Run this chunk to have R show plot the p-value for the lemur example. Be sure to run the setup chunk above first.
+plot_t(3.722, df = 53, 
+       shadeValues = c(-3.722, 3.722), 
+       direction = "beyond")
+
+```
+
+```{r tryIt2, error = T}
+# Make sure to enter the value of the test statistic and the degrees of freedom below before running it to calculate the p-value for the lemur example.
+2*pt(q =  , df =  , lower.tail = FALSE)
+
+```
+
+```{r loadPenguins, error = T}
+penguins <- read.csv("penguins.csv", stringsAsFactors = TRUE)
+
+```
+
+```{r tryIt3, error = T}
+# Be sure to specify the variable that you want to make a histogram of below. Remember that we tell R which variable we want to use in a data set with a dollar sign (e.g., dataset$variable) 
+hist( ,
+     main = "Histogram of Flipper Length",
+     xlab = "Flipper length (mm)",
+     col = "#09847A")
+
+```
+
+```{r gentoo_subset, error = T}
+gentoo <- subset(penguins, penguins$species == "Gentoo")
+
+```
+
+```{r tryIt4, error = T}
+# Like before, be sure to specify the variable that you want to make a histogram of below. Remember that now the data set we want the data set with only the Gentoo penguins.
+hist( ,
+     main = "Histogram of Flipper Length for Gentoo Penguins",
+     xlab = "Flipper length (mm)",
+     col = "#09847A")
+
+```
+
+```{r tryIt5, error = T}
+# Make sure to specify the hypothesized mean in the `mu` argument and the alternative in the `alternative` argument ("two.sided", "less", "greater")
+t.test(gentoo$flipper_length_mm, 
+       mu =   , 
+       alternative =  )
+
+```
+
+```{r tryIt6, error = T}
+# Run this code chunk to have R produce summary statistics for the mean flipper length of Gentoo penguins
+summary(gentoo$flipper_length_mm)
+sd(gentoo$flipper_length_mm)
+
+```
+
+```{r tryIt7, error = T}
+# Enter values for `p`, `df`, and `lower.tail` below and then run this chunk to get the critical value
+qt(p =  , df =  , lower.tail =  )
+
+```
+
+```{r tryIt8, error = T}
+# Specify the value for `conf.level` and then run this chunk to have R produce a 95% confidence interval for the mean flipper length of Gentoo penguins
+t.test(gentoo$flipper_length_mm, conf.level = )
+
+```
+
+# Code Cheat Sheet
+
+## `pt(q, df, lower.tail = TRUE)`
+
+- `q` is the x-axis value you want to find an area related to
+- `df` is the degrees of freedom of the $t$ distribution
+- `lower.tail` determines whether `pt()` finds the area to the left or right of `q`. If `lower.tail = TRUE` (the default), it shades to the left. If `lower.tail = FALSE`, it shades to the right.
+  
+## `qt(q, df, lower.tail = TRUE)`
+
+- `p` is the probability or area under the curve you want to find an x-axis value for
+- `df` is the degrees of freedom of the $t$ distribution
+- `lower.tail` determines whether `pt()` finds the area to the left or right of `q`. If `lower.tail = TRUE` (the default), it shades to the left. If `lower.tail = FALSE`, it shades to the right.
+  
+## `plot_t()`
+
+- `df` refers to the degrees of freedom of the distribution to plot. You must provide this value.
+- `shadeValues` is a vector of up to 2 numbers that define the region you want to shade
+- `direction` can be one of `less`, `greater`, `beyond`, or `between`, and controls the direction of shading between `shadeValues`. Must be `less` or `greater` if `shadeValues` has only one element; `beyond` or `between` if two
+- `col.shade` controls the color of the shaded region, defaults to `"cornflowerblue"`
+- `...` lets you specify other graphical parameters to control the appearance of the normal curve (e.g., `lwd`, `lty`, `col`, etc.)
+
+## `t.test(x, alternative, mu, conf.level)`
+- `x` is a vector of data values
+- `alternative` specifies the direction of the alternative hypothesis; must be one of "two.sided", "less", or "greater"
+- `mu` indicates the true value of the mean (under the null hypothesis); defaults to 0
+- `conf.level` is the confidence level to be used in constructing a confidence interval; must be between 0 and 1, defaults to 0.95
+
+## Important plotting arguments
+
+### `main = "Title of Your Graph in Double Quotes"`
+
+- graph title that must be inside a set of double quotes
+
+### `xlab = "x-axis Label of Your Graph in Double Quotes"`
+
+- the x- (horizontal) axis label that must be inside a set of double quotes
+
+### `ylab = "y-axis Label of Your Graph in Double Quotes"`
+
+- the y- (vertical) axis label that must be inside a set of double quotes
