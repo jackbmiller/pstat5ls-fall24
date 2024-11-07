@@ -1,0 +1,5 @@
+"0","hist(bodyTemps$temp, "
+"0","     main = ""Histogram of Body Temperatures"", "
+"0","     xlab = ""Temperature (degrees Fahrenheit)"", "
+"0","     col = ""cornflowerblue"")"
+"0",""
