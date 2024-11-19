@@ -1,0 +1,2 @@
+"0","bodyTemps <- read.csv(""body_temp_100.csv"", stringsAsFactors = TRUE)"
+"0",""
