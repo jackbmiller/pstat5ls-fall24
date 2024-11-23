@@ -1,0 +1,8 @@
+"0","hist(babies$ageDiff, "
+"0","     main = ""Histogram of the Differences in Age of the Father and Mother "
+"0","     of Babies Born in North Carolina in 2004"","
+"0","     xlab = ""Difference of Age in Years"", "
+"0","     col = ""lightgreen"")"
+"2","Error in hist.default(babies$ageDiff, main = ""Histogram of the Differences in Age of the Father and Mother \n     of Babies Born in North Carolina in 2004"",  : 
+  'x' must be numeric
+"
